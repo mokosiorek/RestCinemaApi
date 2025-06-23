@@ -1,0 +1,38 @@
+[
+  {
+    "title": "Avengers",
+    "genre": "fantasy"
+  },
+  {
+    "title": "Lord of The Rings",
+    "genre": "fantasy"
+  },
+  {
+    "title": "Hobbit",
+    "genre": "fantasy"
+  },
+  {
+    "title": "Tenet",
+    "genre": "action"
+  },
+  {
+    "title": "Die Hard",
+    "genre": "action"
+  },
+  {
+    "title": "Rambo",
+    "genre": "action"
+  },
+  {
+    "title": "Ravage",
+    "genre": "horror"
+  },
+  {
+    "title": "Cargo",
+    "genre": "horror"
+  },
+  {
+    "title": "Sputnik",
+    "genre": "horror"
+  }
+]

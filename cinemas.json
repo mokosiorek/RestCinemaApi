@@ -1,0 +1,49 @@
+[
+  {
+    "name": "Cinema A",
+    "city": "Warszawa",
+    "cinemaRooms": [
+      {
+        "name": "Sala A",
+        "roomRows": 5,
+        "places": 10
+
+      },
+      {
+        "name": "Sala B",
+        "roomRows": 5,
+        "places": 10
+
+      },
+      {
+        "name": "Sala C",
+        "roomRows": 5,
+        "places": 10
+
+      }
+    ]
+  },
+  {
+    "name": "Cinema B",
+    "city": "Wrocław",
+    "cinemaRooms": [
+      {
+        "name": "Sala D",
+        "roomRows": 5,
+        "places": 10
+
+      },
+      {
+        "name": "Sala E",
+        "roomRows": 5,
+        "places": 10
+
+      },
+      {
+        "name": "Sala F",
+        "roomRows": 5,
+        "places": 10
+      }
+    ]
+  }
+]
