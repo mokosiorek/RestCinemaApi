@@ -43,6 +43,10 @@ public class CinemaService {
 
     public Long saveOrUpdateCinema(CreateCinemaDto createCinemaDto){
 
+        if(createCinemaDto == null){
+            throw new CinemaException("createCinemaDto - null");
+        }
+
         return cinemaRepository.addOrUpdate(ModelMapper.fromCreateCinemaDtoToCinema(createCinemaDto))
                 .orElseThrow(()->new CinemaException("save or update cinema - error")).getId();
 

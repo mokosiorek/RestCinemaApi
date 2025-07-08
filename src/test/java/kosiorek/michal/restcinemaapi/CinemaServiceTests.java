@@ -1,6 +1,8 @@
 package kosiorek.michal.restcinemaapi;
 
+import kosiorek.michal.restcinemaapi.application.dto.CreateCinemaDto;
 import kosiorek.michal.restcinemaapi.application.dto.GetCinemaDto;
+import kosiorek.michal.restcinemaapi.application.dto.UpdateCinemaDto;
 import kosiorek.michal.restcinemaapi.application.service.CinemaService;
 import kosiorek.michal.restcinemaapi.domain.cinema.Cinema;
 import kosiorek.michal.restcinemaapi.infrastructure.repository.impl.CinemaRepositoryImpl;
@@ -69,23 +71,50 @@ public class CinemaServiceTests {
 
     }
 
-    /*
+
     @Test
     public void saveOrUpdateCinemaTest() {
 
-        CreateCinemaDto createCinemaDto = CreateCinemaDto.builder().id(2L).name("Cinema 2").city("City 2").build();
+        CreateCinemaDto createCinemaDto = CreateCinemaDto.builder().id(null).name("Cinema 2").city("City 2").build();
+        Cinema cinemaAfterSave = Cinema.builder()
+                .id(2L)
+                .name(createCinemaDto.getName())
+                .city(createCinemaDto.getCity())
+                .build();
 
-        Mockito.when(cinemaRepository.addOrUpdate(cinema2))
-                .thenReturn(Optional.of(cinema2));
-        try (MockedStatic<ModelMapper> modelMapper = Mockito.mockStatic(ModelMapper.class)) {
-            modelMapper.when(() -> ModelMapper.fromCreateCinemaDtoToCinema(createCinemaDto))
-                    .thenReturn(cinema2);
+        Mockito.when(cinemaRepository.addOrUpdate(Mockito.any(Cinema.class)))
+                .thenReturn(Optional.ofNullable(cinemaAfterSave));
 
             Long id = cinemaService.saveOrUpdateCinema(createCinemaDto);
             Assertions.assertEquals(2L,id);
-        }
 
     }
-    */
+
+    @Test
+    public void updateCinemaTest() {
+
+        UpdateCinemaDto updateCinemaDto = UpdateCinemaDto.builder().name("Cinema 2 update").city("City 2 update").build();
+
+        Cinema cinemaBeforeUpdate = Cinema.builder()
+                .id(2L)
+                .name("Cinema 2")
+                .city("City 2")
+                .build();
+        Cinema cinemaAfterUpdate = Cinema.builder()
+                .id(2L)
+                .name(updateCinemaDto.getName())
+                .city(updateCinemaDto.getCity())
+                .build();
+
+        Mockito.when(cinemaRepository.findById(2L))
+                .thenReturn(Optional.ofNullable(cinemaBeforeUpdate));
+        Mockito.when(cinemaRepository.addOrUpdate(cinemaBeforeUpdate))
+                .thenReturn(Optional.ofNullable(cinemaAfterUpdate));
+
+        Long id = cinemaService.updateCinema(2L,updateCinemaDto);
+
+        Assertions.assertEquals(2L,id);
+    }
+
 
 }
