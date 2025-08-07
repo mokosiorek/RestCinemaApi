@@ -31,9 +31,9 @@ public class TicketController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseData<Long> addTicket(@RequestBody CreateTicketDto createTicketDto){
+    public ResponseData<GetTicketDto> addTicket(@RequestBody CreateTicketDto createTicketDto){
 
-        return ResponseData.<Long>builder()
+        return ResponseData.<GetTicketDto>builder()
                 .data(ticketService.saveOrUpdateTicket(createTicketDto))
                 .build();
 

@@ -1,8 +1,9 @@
-package kosiorek.michal.restcinemaapi;
+package kosiorek.michal.restcinemaapi.servicetests;
 
 import kosiorek.michal.restcinemaapi.application.dto.CreateCinemaDto;
 import kosiorek.michal.restcinemaapi.application.dto.GetCinemaDto;
 import kosiorek.michal.restcinemaapi.application.dto.UpdateCinemaDto;
+import kosiorek.michal.restcinemaapi.application.exception.CinemaException;
 import kosiorek.michal.restcinemaapi.application.service.CinemaService;
 import kosiorek.michal.restcinemaapi.domain.cinema.Cinema;
 import kosiorek.michal.restcinemaapi.infrastructure.repository.impl.CinemaRepositoryImpl;
@@ -71,6 +72,13 @@ public class CinemaServiceTests {
 
     }
 
+    @Test
+    public void getCinemaByIdIdNullTest(){
+
+        Assertions.assertThrows(CinemaException.class, () -> cinemaService.getCinemaById(null));
+
+    }
+
 
     @Test
     public void saveOrUpdateCinemaTest() {
@@ -85,8 +93,17 @@ public class CinemaServiceTests {
         Mockito.when(cinemaRepository.addOrUpdate(Mockito.any(Cinema.class)))
                 .thenReturn(Optional.ofNullable(cinemaAfterSave));
 
-            Long id = cinemaService.saveOrUpdateCinema(createCinemaDto);
-            Assertions.assertEquals(2L,id);
+            GetCinemaDto getCinemaDto = cinemaService.saveOrUpdateCinema(createCinemaDto);
+            Assertions.assertEquals(2L,getCinemaDto.getId());
+            Assertions.assertEquals("Cinema 2",getCinemaDto.getName());
+            Assertions.assertEquals("City 2",getCinemaDto.getCity());
+
+    }
+
+    @Test
+    public void saveOrUpdateCinemaNullTest() {
+
+        Assertions.assertThrows(CinemaException.class, () -> cinemaService.saveOrUpdateCinema(null));
 
     }
 
@@ -108,12 +125,40 @@ public class CinemaServiceTests {
 
         Mockito.when(cinemaRepository.findById(2L))
                 .thenReturn(Optional.ofNullable(cinemaBeforeUpdate));
-        Mockito.when(cinemaRepository.addOrUpdate(cinemaBeforeUpdate))
+        Mockito.when(cinemaRepository.addOrUpdate(Mockito.any(Cinema.class)))
                 .thenReturn(Optional.ofNullable(cinemaAfterUpdate));
 
-        Long id = cinemaService.updateCinema(2L,updateCinemaDto);
+        GetCinemaDto cinemaDto = cinemaService.updateCinema(2L,updateCinemaDto);
 
-        Assertions.assertEquals(2L,id);
+        Assertions.assertEquals(2L,cinemaDto.getId());
+        Assertions.assertEquals("Cinema 2 update",cinemaDto.getName());
+        Assertions.assertEquals("City 2 update",cinemaDto.getCity());
+
+    }
+
+    @Test
+    public void updateCinemaNullTest() {
+
+        UpdateCinemaDto updateCinemaDto = UpdateCinemaDto.builder().name("Cinema 2 update").city("City 2 update").build();
+
+        Assertions.assertThrows(CinemaException.class, () -> cinemaService.updateCinema(null, updateCinemaDto ));
+        Assertions.assertThrows(CinemaException.class, () -> cinemaService.updateCinema(2L, null ));
+
+    }
+
+    @Test
+    public void deleteCinemaTest() {
+
+        Mockito.when(cinemaRepository.deleteById(1L))
+                .thenReturn(Optional.ofNullable(cinema1));
+
+        Assertions.assertEquals(1L, cinemaService.deleteCinema(1L));
+
+    }
+
+    @Test
+    public void deleteCinemaNullTest() {
+        Assertions.assertThrows(CinemaException.class, () -> cinemaService.deleteCinema(null));
     }
 
 

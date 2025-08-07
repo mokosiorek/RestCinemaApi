@@ -31,7 +31,7 @@ public class ShowService {
     private final CinemaRoomRepositoryImpl cinemaRoomRepository;
     private final MovieRepositoryImpl movieRepository;
 
-    public Long saveOrUpdateShow(CreateShowDto createShowDto){
+    public GetShowDto saveOrUpdateShow(CreateShowDto createShowDto){
 
         if(createShowDto==null){
             throw new CinemaRoomException("save or update show - create show Dto null");
@@ -48,8 +48,8 @@ public class ShowService {
         show.updateCinemaRoomAndMovie(cinemaRoom, movie);
 
         return showRepository.addOrUpdate(show)
-                .orElseThrow(()-> new CinemaRoomException("add or update show - error"))
-                .getId();
+                .map(Show::toGetShowDto)
+                .orElseThrow(()-> new CinemaRoomException("add or update show - error"));
 
     }
 

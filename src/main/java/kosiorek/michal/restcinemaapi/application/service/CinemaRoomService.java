@@ -46,7 +46,7 @@ public class CinemaRoomService {
 
     }
 
-    public Long saveOrUpdateCinemaRoom(CreateCinemaRoomDto createCinemaRoomDto){
+    public GetCinemaRoomDto saveOrUpdateCinemaRoom(CreateCinemaRoomDto createCinemaRoomDto){
 
         if(createCinemaRoomDto==null){
             throw new CinemaRoomException("save or update Cinema Room - create Cinema room Dto null");
@@ -58,12 +58,12 @@ public class CinemaRoomService {
         cinemaRoom.withChangedCinema(cinema);
 
         return cinemaRoomRepository.addOrUpdate(cinemaRoom)
-               .orElseThrow(()-> new CinemaRoomException("add or update cinema room - error"))
-               .getId();
+                .map(CinemaRoom::toGetCinemaRoomDto)
+                .orElseThrow(()-> new CinemaRoomException("add or update cinema room - error"));
 
     }
 
-    public Long updateCinemaRoom(Long id, UpdateCinemaRoomDto updateCinemaRoomDto){
+    public GetCinemaRoomDto updateCinemaRoom(Long id, UpdateCinemaRoomDto updateCinemaRoomDto){
 
         if(id==null){
             throw new CinemaRoomException("update Cinema Room - id null");
@@ -77,9 +77,9 @@ public class CinemaRoomService {
 
         CinemaRoom cinemaRoomUpdated = cinemaRoom.withChangedCinemaAndName(ModelMapper.fromGetCinemaDtoToCinema(updateCinemaRoomDto.getGetCinemaDto()),updateCinemaRoomDto.getName());
 
-       return cinemaRoomRepository.addOrUpdate(cinemaRoomUpdated)
-                .orElseThrow(()-> new CinemaRoomException("update Cinema Room - find by id error"))
-                .getId();
+        return cinemaRoomRepository.addOrUpdate(cinemaRoomUpdated)
+                .map(CinemaRoom::toGetCinemaRoomDto)
+                .orElseThrow(()-> new CinemaRoomException("update Cinema Room - find by id error"));
     }
 
     public Long deleteCinemaRoomById(Long id){
@@ -95,24 +95,27 @@ public class CinemaRoomService {
     public GetCinemaRoomDto modifyRoomSeats(Long id, ModifyCinemaRoomDto modifyCinemaRoomDto){
 
         if(id==null){
-            throw new CinemaRoomException("get cinema room by id - id null");
+            throw new CinemaRoomException("modify cinema room by id - id null");
+        }
+        if(modifyCinemaRoomDto==null){
+            throw new CinemaRoomException("modify cinema room by id - id null");
         }
         if(modifyCinemaRoomDto.getNewRows()==null){
-            throw new CinemaRoomException("get cinema room by id - new Room rows can't be null");
+            throw new CinemaRoomException("modify cinema room by id - new Room rows can't be null");
         }
         if(modifyCinemaRoomDto.getNewRows()<1){
-            throw new CinemaRoomException("get cinema room by id - new Room rows can't be less than 1");
+            throw new CinemaRoomException("modify cinema room by id - new Room rows can't be less than 1");
         }
 
         if(modifyCinemaRoomDto.getNewPlaces()==null){
-            throw new CinemaRoomException("get cinema room by id - new places can't be null");
+            throw new CinemaRoomException("modify cinema room by id - new places can't be null");
         }
         if(modifyCinemaRoomDto.getNewPlaces()<1){
-            throw new CinemaRoomException("get cinema room by id - new places can't be less than 1");
+            throw new CinemaRoomException("modify cinema room by id - new places can't be less than 1");
         }
 
         CinemaRoom room = cinemaRoomRepository.findById(id)
-                .orElseThrow(()-> new CinemaRoomException("get cinema room by id - find by id error"));
+                .orElseThrow(()-> new CinemaRoomException("modify cinema room by id - find by id error"));
 
         List<Show> showsInRoom = showRepository.findAllByCinemaRoom(id);
 

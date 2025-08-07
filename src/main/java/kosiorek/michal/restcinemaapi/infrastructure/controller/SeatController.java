@@ -29,9 +29,9 @@ public class SeatController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseData<Long> addSeat(@RequestBody CreateSeatDto createSeatDto){
+    public ResponseData<GetSeatDto> addSeat(@RequestBody CreateSeatDto createSeatDto){
 
-        return ResponseData.<Long>builder()
+        return ResponseData.<GetSeatDto>builder()
                 .data(seatService.saveOrUpdateSeat(createSeatDto))
                 .build();
 

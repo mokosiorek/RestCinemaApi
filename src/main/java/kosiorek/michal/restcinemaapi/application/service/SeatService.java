@@ -32,19 +32,23 @@ public List<GetSeatDto> getAllSeatsOfCinemaRoom(Long cinemaRoomId){
 
 }
 
-public Long saveOrUpdateSeat(CreateSeatDto createSeatDto){
+public GetSeatDto saveOrUpdateSeat(CreateSeatDto createSeatDto){
 
-    if(createSeatDto==null){throw new SeatException("create seat dto cannot be null");}
+    if(createSeatDto==null) {
+        throw new SeatException("create seat dto cannot be null");
+    }
 
     return seatRepository.addOrUpdate(ModelMapper.fromCreateSeatDtoToSeat(createSeatDto))
-            .orElseThrow(()-> new SeatException("save or update error"))
-            .getId();
+            .map(Seat::toGetSeatDto)
+            .orElseThrow(()-> new SeatException("save or update error"));
 
 }
 
 public Long deleteSeat(Long seatId){
 
-    if(seatId==null){throw new SeatException("seatId cannot be null");}
+    if(seatId==null){
+        throw new SeatException("seatId cannot be null");
+    }
     return seatRepository.deleteById(seatId)
             .orElseThrow(()-> new SeatException("delete seat error"))
             .getId();

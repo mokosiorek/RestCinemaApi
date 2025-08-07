@@ -20,7 +20,7 @@ public class RatingService {
 
     private final RatingRepositoryImpl ratingRepository;
 
-    public Long saveOrUpdateRating(CreateRatingDto createRatingDto) {
+    public GetRatingDto saveOrUpdateRating(CreateRatingDto createRatingDto) {
 
         if(createRatingDto == null){
             throw new RatingException("save or update rating cannot be null");
@@ -32,8 +32,8 @@ public class RatingService {
         }
 
         return ratingRepository.addOrUpdate(ModelMapper.fromCreateRatingDtoToRating(createRatingDto))
-                .orElseThrow(()-> new RatingException("save or update rating error"))
-                .getId();
+                .map(Rating::toGetRatingDto)
+                .orElseThrow(()-> new RatingException("save or update rating error"));
 
     }
 

@@ -26,9 +26,9 @@ public class RatingController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseData<Long> addRating(@RequestBody CreateRatingDto createRatingDto){
+    public ResponseData<GetRatingDto> addRating(@RequestBody CreateRatingDto createRatingDto){
 
-        return ResponseData.<Long>builder()
+        return ResponseData.<GetRatingDto>builder()
                 .data(ratingService.saveOrUpdateRating(createRatingDto))
                 .build();
 

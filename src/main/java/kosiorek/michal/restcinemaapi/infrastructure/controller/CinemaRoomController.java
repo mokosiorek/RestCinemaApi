@@ -33,17 +33,17 @@ public class CinemaRoomController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseData<Long> addCinemaRoom(@RequestBody CreateCinemaRoomDto createCinemaRoomDto){
+    public ResponseData<GetCinemaRoomDto> addCinemaRoom(@RequestBody CreateCinemaRoomDto createCinemaRoomDto){
 
-        return ResponseData.<Long>builder()
+        return ResponseData.<GetCinemaRoomDto>builder()
                 .data(cinemaRoomService.saveOrUpdateCinemaRoom(createCinemaRoomDto))
                 .build();
 
     }
 
     @PutMapping("/{id}")
-    public ResponseData<Long> updateCinemaRoom(@PathVariable Long id, @RequestBody UpdateCinemaRoomDto updateCinemaRoomDto){
-        return ResponseData.<Long>builder()
+    public ResponseData<GetCinemaRoomDto> updateCinemaRoom(@PathVariable Long id, @RequestBody UpdateCinemaRoomDto updateCinemaRoomDto){
+        return ResponseData.<GetCinemaRoomDto>builder()
                 .data(cinemaRoomService.updateCinemaRoom(id,updateCinemaRoomDto))
                 .build();
     }

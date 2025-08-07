@@ -24,9 +24,9 @@ public class ShowController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseData<Long> addShow(@RequestBody CreateShowDto createShowDto){
+    public ResponseData<GetShowDto> addShow(@RequestBody CreateShowDto createShowDto){
 
-        return ResponseData.<Long>builder()
+        return ResponseData.<GetShowDto>builder()
                 .data(showService.saveOrUpdateShow(createShowDto))
                 .build();
 

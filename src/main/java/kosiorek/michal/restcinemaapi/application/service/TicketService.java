@@ -47,7 +47,7 @@ public class TicketService {
 
     }
 
-    public Long saveOrUpdateTicket(CreateTicketDto createTicketDto){
+    public GetTicketDto saveOrUpdateTicket(CreateTicketDto createTicketDto){
 
         if(createTicketDto==null){
             throw new TicketException("createTicketDto is null");
@@ -63,7 +63,8 @@ public class TicketService {
         ticket.updateSeatAndShow(seat,show);
 
         return ticketRepository.addOrUpdate(ticket)
-                .orElseThrow(() -> new TicketException("save or update ticket error")).getId();
+                .map(Ticket::toGetTicketDto)
+                .orElseThrow(() -> new TicketException("save or update ticket error"));
 
     }
 

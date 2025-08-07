@@ -33,24 +33,24 @@ public class MovieController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseData<Long> addMovie(@RequestBody CreateMovieDto createMovieDto){
+    public ResponseData<GetMovieDto> addMovie(@RequestBody CreateMovieDto createMovieDto){
 
-        return ResponseData.<Long>builder()
+        return ResponseData.<GetMovieDto>builder()
                 .data(movieService.saveOrUpdateMovie(createMovieDto))
                 .build();
 
     }
 
     @PutMapping("/{id}")
-    public ResponseData<Long> updateMovie(@PathVariable Long id, @RequestBody UpdateMovieDto updateMovieDto){
-        return ResponseData.<Long>builder()
+    public ResponseData<GetMovieDto> updateMovie(@PathVariable Long id, @RequestBody UpdateMovieDto updateMovieDto){
+        return ResponseData.<GetMovieDto>builder()
                 .data(movieService.updateMovie(id,updateMovieDto))
                 .build();
     }
 
     @PatchMapping("/{id}")
-    public ResponseData<Long> updatePatchMovie(@PathVariable Long id, @RequestBody UpdateMovieDto updateMovieDto){
-        return ResponseData.<Long>builder()
+    public ResponseData<GetMovieDto> updatePatchMovie(@PathVariable Long id, @RequestBody UpdateMovieDto updateMovieDto){
+        return ResponseData.<GetMovieDto>builder()
                 .data(movieService.updateMovie(id,updateMovieDto))
                 .build();
     }

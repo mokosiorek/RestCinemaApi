@@ -41,18 +41,19 @@ public class CinemaService {
 
     }
 
-    public Long saveOrUpdateCinema(CreateCinemaDto createCinemaDto){
+    public GetCinemaDto saveOrUpdateCinema(CreateCinemaDto createCinemaDto){
 
         if(createCinemaDto == null){
             throw new CinemaException("createCinemaDto - null");
         }
 
         return cinemaRepository.addOrUpdate(ModelMapper.fromCreateCinemaDtoToCinema(createCinemaDto))
-                .orElseThrow(()->new CinemaException("save or update cinema - error")).getId();
+                .map(Cinema::toGetCinemaDto)
+                .orElseThrow(()->new CinemaException("save or update cinema - error"));
 
     }
 
-    public Long updateCinema(Long id, UpdateCinemaDto updateCinemaDto){
+    public GetCinemaDto updateCinema(Long id, UpdateCinemaDto updateCinemaDto){
 
         if(id == null){
             throw new CinemaException("update Cinema by id - id null");
@@ -67,8 +68,8 @@ public class CinemaService {
         cinema = cinema.update(updateCinemaDto);
 
         return cinemaRepository.addOrUpdate(cinema)
-                .orElseThrow(()-> new CinemaException("update cinema - add Or Update error"))
-                .getId();
+                .map(Cinema::toGetCinemaDto)
+                .orElseThrow(()-> new CinemaException("update cinema - add Or Update error"));
 
     }
 

@@ -36,24 +36,24 @@ public class CinemaController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseData<Long> addCinema(@RequestBody CreateCinemaDto createCinemaDto){
+    public ResponseData<GetCinemaDto> addCinema(@RequestBody CreateCinemaDto createCinemaDto){
 
-        return ResponseData.<Long>builder()
+        return ResponseData.<GetCinemaDto>builder()
                 .data(cinemaService.saveOrUpdateCinema(createCinemaDto))
                 .build();
 
     }
 
     @PutMapping("/{id}")
-    public ResponseData<Long> updateCinema(@PathVariable Long id, @RequestBody UpdateCinemaDto updateCinemaDto){
-        return ResponseData.<Long>builder()
+    public ResponseData<GetCinemaDto> updateCinema(@PathVariable Long id, @RequestBody UpdateCinemaDto updateCinemaDto){
+        return ResponseData.<GetCinemaDto>builder()
                 .data(cinemaService.updateCinema(id,updateCinemaDto))
                 .build();
     }
 
     @PatchMapping("/{id}")
-    public ResponseData<Long> updatePatchCinema(@PathVariable Long id, @RequestBody UpdateCinemaDto updateCinemaDto){
-        return ResponseData.<Long>builder()
+    public ResponseData<GetCinemaDto> updatePatchCinema(@PathVariable Long id, @RequestBody UpdateCinemaDto updateCinemaDto){
+        return ResponseData.<GetCinemaDto>builder()
                 .data(cinemaService.updateCinema(id,updateCinemaDto))
                 .build();
     }

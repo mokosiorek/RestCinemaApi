@@ -42,14 +42,15 @@ public class MovieService {
 
     }
 
-    public Long saveOrUpdateMovie(CreateMovieDto createMovieDto){
+    public GetMovieDto saveOrUpdateMovie(CreateMovieDto createMovieDto){
 
         return movieRepository.addOrUpdate(ModelMapper.fromCreateMovieDtoToMovie(createMovieDto))
-                .orElseThrow(()->new MovieException("save or update movie - error")).getId();
+                .map(Movie::toGetMovieDto)
+                .orElseThrow(()->new MovieException("save or update movie - error"));
 
     }
 
-    public Long updateMovie(Long id, UpdateMovieDto updateMovieDto){
+    public GetMovieDto updateMovie(Long id, UpdateMovieDto updateMovieDto){
 
         if(id == null){
             throw new MovieException("update movie by id - id null");
@@ -64,8 +65,8 @@ public class MovieService {
         movie = movie.update(updateMovieDto);
 
         return movieRepository.addOrUpdate(movie)
-                .orElseThrow(()-> new MovieException("update cinema - add Or Update error"))
-                .getId();
+                .map(Movie::toGetMovieDto)
+                .orElseThrow(()-> new MovieException("update cinema - add Or Update error"));
 
     }
 
